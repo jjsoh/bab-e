@@ -26,6 +26,7 @@ GEM
     jwt (1.5.6)
     minitest (5.10.1)
     multi_json (1.12.1)
+    pg (0.19.0)
     rack (1.6.5)
     rack-protection (1.5.3)
       rack
@@ -68,6 +69,7 @@ DEPENDENCIES
   dotenv-rails
   haml
   json
+  pg
   rack
   rake
   shotgun

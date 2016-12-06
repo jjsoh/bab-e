@@ -9,7 +9,15 @@ gem 'rack'
 gem "rake"
 gem 'activerecord'
 gem 'sinatra-activerecord' # excellent gem that ports ActiveRecord for Sinatra
-gem 'sqlite3'
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+end
+
 gem 'sinatra-contrib'
 gem 'haml'
 gem 'builder'

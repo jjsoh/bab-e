@@ -7,7 +7,7 @@ require 'rake'
 
 require 'twilio-ruby'
 
-set :database, "sqlite3:db/bab-e.db"
+# set :database, "sqlite3:db/bab-e.db"
 
 require_relative './models/bottle'
 require_relative './models/breast'
