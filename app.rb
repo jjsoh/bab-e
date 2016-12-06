@@ -36,7 +36,7 @@ enable :sessions
 #   heroku config:set TWILIO_ACCOUNT_SID=XXXXX 
 # for each environment variable
 
-#client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
+client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TOKEN"]
 
 
 # Hook this up to your Webhook for SMS/MMS through the console
