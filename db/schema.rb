@@ -12,27 +12,27 @@
 
 ActiveRecord::Schema.define(version: 20161204200259) do
 
-  create_table "bottle", force: :cascade do |t|
+  create_table "bottles", force: :cascade do |t|
     t.float    "amount"
     t.datetime "start"
     t.datetime "end"
   end
 
-  create_table "breast", force: :cascade do |t|
+  create_table "breasts", force: :cascade do |t|
     t.integer  "side"
     t.integer  "quality"
     t.datetime "start"
     t.datetime "end"
   end
 
-  create_table "diaper", force: :cascade do |t|
+  create_table "diapers", force: :cascade do |t|
     t.integer  "type"
     t.integer  "quality"
     t.datetime "start"
     t.datetime "end"
   end
 
-  create_table "pumping", force: :cascade do |t|
+  create_table "pumpings", force: :cascade do |t|
     t.integer  "side"
     t.integer  "quality"
     t.float    "amount"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20161204200259) do
     t.datetime "end"
   end
 
-  create_table "user", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string  "fname"
     t.string  "lname"
     t.string  "bname"
