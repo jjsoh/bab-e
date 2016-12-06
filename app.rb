@@ -41,15 +41,6 @@ client = Twilio::REST::Client.new ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_TO
 
 # Hook this up to your Webhook for SMS/MMS through the console
 
-get '/send_sms' do
-    client.account.messages.create(
-  :from => ENV["TWILIO_NUMBER"],
-  :to => "+14129154421",
-  :body => "Hello. You can talk to me to log your baby's daily activities")
-  "Message sent"
-end
-
-
 
 get '/incoming_sms' do
     
