@@ -85,16 +85,20 @@ get '/incoming_sms' do
               # save it and update the database with the change
             breast.save
             duration = (breast.end - breast.start)/60
-            message = "I updated that. You pumped for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
+            message = "I updated that. You pumped for #{duration} minutes."
             session = ["last_context"] == "feeding_quality"
         end 
         
     elsif session["last_context"] == "feeding_quality"
-            
+        
+        message = " How would you rate the quality of the experience from 1 being bad to 10 being great?"
+        
+        quality = body
+        
         breast = Breast.where( quality: nil).first
         
         unless breast.nil?
-            breast.quality =  body
+            breast.quality =  "quality"
             breast.save
             message = "Great, I logged that she fed for #{duration} minutes and the experience was rated #{body}"          
           else
