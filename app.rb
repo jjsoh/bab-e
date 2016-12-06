@@ -86,7 +86,7 @@ get '/incoming_sms' do
             breast.save
             duration = (breast.end - breast.start)/60
             message = "I updated that. You pumped for #{duration} minutes."
-            session = ["last_context"] == "feeding_quality"
+            session["last_context"] = "feeding_quality"
         end 
         
     elsif session["last_context"] == "feeding_quality"
