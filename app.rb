@@ -96,6 +96,8 @@ get '/incoming_sms' do
             duration = (breast.end - breast.start)/60
             message = "I updated that. You pumped for #{duration} minutes"
             session = ["last_context"] == "feeding_quality"
+        end 
+        
     elsif session["last_context"] == "feeding_quality"
             
         breast = Breast.where( quality: nil).first
