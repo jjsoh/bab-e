@@ -9,7 +9,7 @@ class Babe < ActiveRecord::Migration[5.0]
       end
       
        create_table :breasts do |t|
-          t.integer :side
+          t.string :side
           t.integer :quality
           t.datetime :start
           t.datetime :end
