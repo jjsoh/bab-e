@@ -67,11 +67,11 @@ get '/incoming_sms' do
         breast.start = Time.now
         # save it and update the database with the change
         breast.save
-        message = "Great, I started the timer. Text 'end' when she stops feeding"
+        message = "Great, I started the timer. Text 'stop' when she stops feeding"
 
         session["last_context"] = "feeding_timer"
         
-    elsif session["last_context"] == "feeding_timer" and body == "end" 
+    elsif session["last_context"] == "feeding_timer" and body == "stop" 
         #create the object
         # search for the records in the database that match the side
         # and haven't got a stop time
