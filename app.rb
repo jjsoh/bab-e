@@ -71,7 +71,7 @@ get '/incoming_sms' do
 
         session["last_context"] = "feeding_timer"
         
-    elsif session["last_context"] == "feeding_timer" and body == "stop" 
+    elsif session["last_context"] == "feeding_timer" and body == "done" 
         #create the object
         # search for the records in the database that match the side
         # and haven't got a stop time
