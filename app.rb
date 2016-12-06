@@ -67,7 +67,7 @@ get '/incoming_sms' do
         breast.start = Time.now
         # save it and update the database with the change
         breast.save
-        message = "Great, I started the timer. Text 'stop' when she stops feeding"
+        message = "Great, I started the timer. Text 'done' when she stops feeding"
 
         session["last_context"] = "feeding_timer"
         
@@ -85,7 +85,7 @@ get '/incoming_sms' do
               # save it and update the database with the change
             breast.save
             duration = (breast.end - breast.start)/60
-            message = "I updated that. You pumped for #{duration} minutes"
+            message = "I updated that. You pumped for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
             session = ["last_context"] == "feeding_quality"
         end 
         
@@ -96,7 +96,7 @@ get '/incoming_sms' do
         unless breast.nil?
             breast.quality =  "body"
             breast.save
-            message = "Great, I logged that she fed for #{duration} minutes and the experienc was rated #{body}"          
+            message = "Great, I logged that she fed for #{duration} minutes and the experience was rated #{body}"          
           else
             message = "Sorry. I couldn't do that. I don't think the timer was started."
           end 
