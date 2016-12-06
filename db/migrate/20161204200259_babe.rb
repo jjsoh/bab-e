@@ -23,7 +23,7 @@ class Babe < ActiveRecord::Migration[5.0]
       end
       
       create_table :pumpings do |t|
-          t.integer :side
+          t.string :side
           t.integer :quality
           t.float :amount
           t.datetime :start
