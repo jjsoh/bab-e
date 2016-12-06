@@ -94,7 +94,7 @@ get '/incoming_sms' do
         breast = Breast.where( quality: nil).first
         
         unless breast.nil?
-            breast.quality =  "body"
+            breast.quality =  body
             breast.save
             message = "Great, I logged that she fed for #{duration} minutes and the experience was rated #{body}"          
           else
