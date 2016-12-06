@@ -150,4 +150,9 @@ get '/incoming_sms' do
     #add (pee,poo,both) to the "type" column
     #return "Great, I've logged that ___ had a ___ at ___"
     
+  twiml = Twilio::TwiML::Response.new do |resp|
+    resp.Message message
+  end
+    
+  return twiml.text
 end
