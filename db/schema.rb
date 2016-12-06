@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20161204200259) do
   end
 
   create_table "breasts", force: :cascade do |t|
-    t.integer  "side"
+    t.string   "side"
     t.integer  "quality"
     t.datetime "start"
     t.datetime "end"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20161204200259) do
   end
 
   create_table "pumpings", force: :cascade do |t|
-    t.integer  "side"
+    t.string   "side"
     t.integer  "quality"
     t.float    "amount"
     t.datetime "start"
