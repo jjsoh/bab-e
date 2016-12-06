@@ -9,11 +9,11 @@ require 'twilio-ruby'
 
 # set :database, "sqlite3:db/bab-e.db"
 
-require_relative './models/bottle'
-require_relative './models/breast'
-require_relative './models/diaper'
-require_relative './models/pumping'
-require_relative './models/user'
+require_relative './models/bottles'
+require_relative './models/breasts'
+require_relative './models/diapers'
+require_relative './models/pumpings'
+require_relative './models/users'
 
 # Load environment variables using Dotenv. If a .env file exists, it will
 # set environment variables from that file (useful for dev environments)
