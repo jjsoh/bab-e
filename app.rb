@@ -61,7 +61,7 @@ get '/incoming_sms' do
         # add some validation to check the side is left or right later
         
         #create the object
-        breast = Breast.create( side: "side" ) 
+        breast = Breast.create( side: side ) 
         #add the current time to the start time column
         # this should be a datetime type
         breast.start = Time.now
@@ -98,7 +98,8 @@ get '/incoming_sms' do
         unless breast.nil?
             breast.quality =  "quality"
             breast.save
-            duration = (breast.end - breast.start)/60
+            minutes = (breast.end - breast.start)/60
+            duration = minutes.round
             message = "Great, I logged that she fed for #{duration} minutes on the #{breast.side} and the experience was rated #{body}"          
           else
             message = "Sorry. I couldn't do that. I don't think the timer was started."
