@@ -89,7 +89,7 @@ get '/incoming_sms' do
         message = "I updated that. You pumped for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
         session["last_context"] = "feeding_quality"
         
-    elsif session["last_context"] == "feeding_quality" and body.is_a? Integer == true
+    elsif session["last_context"] == "feeding_quality" and body.to_i >= 0 
         quality = body
         
         breast = Breast.where( quality: nil).first
