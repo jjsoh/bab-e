@@ -86,11 +86,10 @@ get '/incoming_sms' do
             breast.save
             duration = (breast.end - breast.start)/60
         end 
-        message = "I updated that. You pumped for #{duration} minutes."
+        message = "I updated that. You pumped for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
         session["last_context"] = "feeding_quality"
         
-    elsif session["last_context"] == "feeding_quality" and body == "done"
-        message = " How would you rate the quality of the experience from 1 being bad to 10 being great?"
+    elsif session["last_context"] == "feeding_quality" and body == Integer
         quality = body
         
         breast = Breast.where( quality: nil).first
