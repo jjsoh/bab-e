@@ -87,12 +87,11 @@ get '/incoming_sms' do
             duration = (breast.end - breast.start)/60
             message = "I updated that. You pumped for #{duration} minutes."
         end 
-        
+                
+        message = " How would you rate the quality of the experience from 1 being bad to 10 being great?"
         session["last_context"] = "feeding_quality"
         
     elsif session["last_context"] == "feeding_quality"
-        
-        message = " How would you rate the quality of the experience from 1 being bad to 10 being great?"
         
         quality = body
         
