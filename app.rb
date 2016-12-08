@@ -86,7 +86,6 @@ get '/incoming_sms' do
             breast.save
             duration = (breast.end - breast.start)/60
             message = "I updated that. You pumped for #{duration} minutes."
-        end 
                 
         message = " How would you rate the quality of the experience from 1 being bad to 10 being great?"
         session["last_context"] = "feeding_quality"
@@ -100,6 +99,7 @@ get '/incoming_sms' do
         unless breast.nil?
             breast.quality =  "quality"
             breast.save
+            duration = (breast.end - breast.start)/60
             message = "Great, I logged that she fed for #{duration} minutes and the experience was rated #{body}"          
           else
             message = "Sorry. I couldn't do that. I don't think the timer was started."
