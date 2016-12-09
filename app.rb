@@ -88,7 +88,7 @@ get '/incoming_sms' do
             minutes = (breast.end - breast.start)/60
             duration = minutes.round
         end 
-        message = "I updated that. You pumped for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
+        message = "I updated that. You fed for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
         session["last_context"] = "feeding_quality"
         
     elsif session["last_context"] == "feeding_quality" and body.to_i >= 0 
@@ -109,6 +109,17 @@ get '/incoming_sms' do
         else  
          #... 
         end
+    
+    if body == "last feeding"
+        breast = Breast.last
+        time = breast.start
+        side = breast.side
+        minutes = (breast.end - breast.start)/60
+        duration = minutes.round
+        quality = breast.quality
+        
+        message = "Her last feeding was at #{time} for #{duration} minutes on the #{side}. The experience was rated #{body}"  
+    end
     #begin t.timer on the "breast feeding" table
     #ask back "Ok, I started the timer. Which is ___ starting on?"
     #Receive (left,right,both)
