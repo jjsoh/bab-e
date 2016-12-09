@@ -99,9 +99,10 @@ get '/incoming_sms' do
         unless breast.nil?
             breast.quality =  "quality"
             breast.save
+            side = breast.side
             minutes = (breast.end - breast.start)/60
             duration = minutes.round
-            message = "Great, I logged that she fed for #{duration} minutes on the #{breast.side} and the experience was rated #{body}"          
+            message = "Great, I logged that she fed for #{duration} minutes on the #{side} and the experience was rated #{body}"          
           else
             message = "Sorry. I couldn't do that. I don't think the timer was started."
           end 
