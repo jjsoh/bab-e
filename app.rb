@@ -64,7 +64,7 @@ get '/incoming_sms' do
         breast = Breast.create( side: "side" ) 
         #add the current time to the start time column
         # this should be a datetime type
-        breast.side = side
+        breast.side = "side"
         breast.start = Time.now
         # save it and update the database with the change
         breast.save
