@@ -61,9 +61,10 @@ get '/incoming_sms' do
         # add some validation to check the side is left or right later
         
         #create the object
-        breast = Breast.create( side: side ) 
+        breast = Breast.create( side: nil ) 
         #add the current time to the start time column
         # this should be a datetime type
+        breast.side = side
         breast.start = Time.now
         # save it and update the database with the change
         breast.save
