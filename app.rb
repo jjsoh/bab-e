@@ -65,7 +65,7 @@ get '/incoming_sms' do
         #add the current time to the start time column
         # this should be a datetime type
         breast.side = "side"
-        breast.start = Time.now
+        breast.start = Time.now.in_time_zone("Eastern Time (US & Canada)")
         # save it and update the database with the change
         breast.save
         message = "Great, I started the timer for the #{side} side. Text 'done' when she stops feeding"
@@ -82,7 +82,7 @@ get '/incoming_sms' do
         # check we have something in the database 
         # i.e. we've got an object to work with 
         unless breast.nil? 
-            breast.end = Time.now
+            breast.end = Time.now.in_time_zone("Eastern Time (US & Canada)")
               # save it and update the database with the change
             breast.save
             minutes = (breast.end - breast.start)/60
@@ -102,7 +102,7 @@ get '/incoming_sms' do
             side = breast.side
             minutes = (breast.end - breast.start)/60
             duration = minutes.round
-            message = "Great, I logged that she fed for #{duration} minutes on the #{side} and the experience was rated #{body}"          
+            message = "Great, I logged that she fed for #{duration} minutes on the #{side} and the experience was rated #{quality}"          
           else
             message = "Sorry. I couldn't do that. I don't think the timer was started."
           end 
