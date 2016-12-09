@@ -67,7 +67,7 @@ get '/incoming_sms' do
         breast.start = Time.now
         # save it and update the database with the change
         breast.save
-        message = "Great, I started the timer. Text 'done' when she stops feeding"
+        message = "Great, I started the timer for the #{side} side. Text 'done' when she stops feeding"
 
         session["last_context"] = "feeding_timer"
         
