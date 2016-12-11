@@ -18,6 +18,9 @@ group :production do
   gem 'pg'
 end
 
+gem 'httparty'
+gem 'alexa_skills_ruby'
+gem 'iso8601'
 gem 'sinatra-contrib'
 gem 'haml'
 gem 'builder'

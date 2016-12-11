@@ -1,23 +1,35 @@
 {
   "intents": [
     {
-      "intent": "Breast Feeding",
-      "slots": [
-        {
-          "side": "Sign",
-          "start": "start time"
-          "end": "end time"
-          "quality": "quality"
-        },
-      ]
+      "intent": "setup"
+        "slots":[
+            {
+                "fname": "fname",
+                "type": "NAME_LIST"
+            },
+            {
+                "lname": "lname",
+                "type": "NAME_LIST"
+            },
+            {
+                "bname": "bname",
+                "type": "NAME_LIST"
+            },
+            {
+                "gender": "gender"
+                "type": "GENDER_LIST"
+            },
+            {
+                "password": "password"
+                "type": "PASSWORD_LIST"
+            }
+        ]
     },
     {
-      "intent": "last feeding",
-      "slots": [
-          {
-
-          }
-      ]
-    }
+      "intent": "setup",
+    },
+    {
+      "intent": "Breast Feeding",
+    },
   ]
 }
