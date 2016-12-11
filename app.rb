@@ -49,31 +49,33 @@ enable :sessions
 
 class CustomHandler < AlexaSkillsRuby::Handler
 
-  on_intent("setup") do
-    response.set_output_speech_text("Welcome, what is your first name?")
-    session["last_context"] = "first_name"
-      
-      elsif session["last_context"] == "first_name"
+    on_intent("Setup") do
+        response.set_output_speech_text("Welcome, what is your first name?")
+    end
+            
+    on_intent("SetupFirstName") do
             user = User.new
             user.fname = fname
             user.save
             response.set_output_speech_text("Your first name is #{user.fname}. What is your last name?")
             #Add confirmation
-            session["last_context"] = "last_name"
-        
-        elsif session["last_context"] == "last_name"
+    end
+    
+    on_intent("SetupLastName") do
             user = User.last
             user.lname = lname
             user.save
             response.set_output_speech_text("Your last name is #{user.lname}. What is your baby's name?")
-            session["last_context"] = "baby_name"
-        elsif session["last_context"] == "baby_name"
+    end
+    
+    on_intent("SetupBabyName") do
             user = User.last
             user.bname = bname
             user.save
             response.set_output_speech_text("Your baby's name is #{user.bname}. What is the baby's gender?")
-            session["last_context"] = "baby_gender"
-        elsif session["last_context"] == "baby_gender"
+    end
+
+    on_intent("SetupBabyGender") do
             user = User.last
             if gender == "girl"
                 user.gender = 1
@@ -83,11 +85,11 @@ class CustomHandler < AlexaSkillsRuby::Handler
                 elsif gender == "boy"
                 user.gender = 2
                 user.save
-                response.set_output_speech_text("Your baby is a body. Please set your password.")
+                response.set_output_speech_text("Your baby is a boy. Please set your password.")
             end
-        session["last_context"] = "password"
-        
-        elsif session["last_context"] == "password"
+    end
+       
+    on_intent("SetupPassword") do
             user = User.last
             user.password = password
             user.save

@@ -1,4 +1,5 @@
-setup my name is {fname} {lname}
-setup my baby's name is {bname}
-setup my baby is a {gender}
-setup my password is {password}
+SetupFirstName my name is {fname}
+SetupLastName my last name is {lname}
+SetupBabyName my baby's name is {bname}
+SetupBabyGender my baby is a {gender}
+SetupPassword my password is {password}
