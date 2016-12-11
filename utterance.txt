@@ -1,0 +1,4 @@
+setup my name is {fname} {lname}
+setup my baby's name is {bname}
+setup my baby is a {gender}
+setup my password is {password}
