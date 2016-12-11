@@ -19,7 +19,6 @@ class Babe < ActiveRecord::Migration[5.0]
           t.float :amount
           t.datetime :start
           t.datetime :end
-
       end
       
       create_table :pumpings do |t|
@@ -31,8 +30,7 @@ class Babe < ActiveRecord::Migration[5.0]
       end
       
       create_table :diapers do |t|
-          t.integer :type
-          t.integer :quality
+          t.integer :dtype
           t.datetime :start
           t.datetime :end
 

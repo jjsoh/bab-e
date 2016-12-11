@@ -1,0 +1,23 @@
+{
+  "intents": [
+    {
+      "intent": "Breast Feeding",
+      "slots": [
+        {
+          "side": "Sign",
+          "start": "start time"
+          "end": "end time"
+          "quality": "quality"
+        },
+      ]
+    },
+    {
+      "intent": "last feeding",
+      "slots": [
+          {
+
+          }
+      ]
+    }
+  ]
+}

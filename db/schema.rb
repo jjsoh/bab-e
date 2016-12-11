@@ -26,8 +26,7 @@ ActiveRecord::Schema.define(version: 20161204200259) do
   end
 
   create_table "diapers", force: :cascade do |t|
-    t.integer  "type"
-    t.integer  "quality"
+    t.integer  "dtype"
     t.datetime "start"
     t.datetime "end"
   end
