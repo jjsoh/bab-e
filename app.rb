@@ -375,19 +375,20 @@ class CustomHandler < AlexaSkillsRuby::Handler
 #===================================== DIAPER LIST =====================================    
     on_intent("DChange") do
         user = User.last
-                    if user.gender == 1
-                        gender = "girl"
-                        pronoun = "she"
-
-                        elsif user.gender == 2
-                        gender = "boy"
-                        pronoun = "he"
-                    end
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
         diaper = Diaper.new
         t = Time.now
         diaper.start = t + Time.zone_offset('EST')
         diaper.save
-        response.set_output_speech_text("Ok, what did #{pronoun} have in the diaper?")
+        response.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
     end
     
     on_intent("DType") do
