@@ -47,6 +47,25 @@ enable :sessions
 
 # Hook this up to your Webhook for SMS/MMS through the console
 
+get '/' do
+  @status = StatusUpdate.order( created_at: 'DESC' ).first
+  haml :index
+end
+
+post '/' do
+  content_type :json
+
+  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
+
+  begin
+    handler.handle(request.body.read)
+  rescue AlexaSkillsRuby::InvalidApplicationId => e
+    logger.error e.to_s
+    403
+  end
+
+end
+
 class CustomHandler < AlexaSkillsRuby::Handler
 
     on_intent("Setup") do
@@ -107,20 +126,6 @@ class CustomHandler < AlexaSkillsRuby::Handler
 
 end
 
-
-post '/' do
-  content_type :json
-
-  handler = CustomHandler.new(application_id: ENV['APPLICATION_ID'], logger: logger)
-
-  begin
-    handler.handle(request.body.read)
-  rescue AlexaSkillsRuby::InvalidApplicationId => e
-    logger.error e.to_s
-    403
-  end
-
-end
 
 #
 #get '/incoming_sms' do

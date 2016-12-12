@@ -1,35 +1,52 @@
 {
   "intents": [
     {
-      "intent": "setup"
+      "intent":"Setup"
+    },
+    {
+      "intent": "SetupFirstName"
         "slots":[
             {
-                "fname": "fname",
+                "name": "fname",
                 "type": "NAME_LIST"
-            },
+            }
+            ]
+    },
+    {
+      "intent": "SetupLastName"
+      "slots":[
             {
-                "lname": "lname",
+                "name": "lname",
                 "type": "NAME_LIST"
-            },
-            {
-                "bname": "bname",
-                "type": "NAME_LIST"
-            },
-            {
-                "gender": "gender"
-                "type": "GENDER_LIST"
-            },
-            {
-                "password": "password"
-                "type": "PASSWORD_LIST"
             }
         ]
     },
     {
-      "intent": "setup",
+      "intent": "SetupBabyName"
+      "slots":[
+            {
+                "name": "bname",
+                "type": "NAME_LIST"
+            }
+        ]
     },
     {
-      "intent": "Breast Feeding",
+      "intent": "SetupBabyGender"
+      "slots":[
+            {
+                "name": "gender"
+                "type": "GENDER_LIST"
+            }
+        ]
     },
+    {
+      "intent": "SetupPassword"
+      "slots":[
+            {
+                "name": "password"
+                "type": "PASSWORD_LIST"
+            }
+        ]
+    }
   ]
 }

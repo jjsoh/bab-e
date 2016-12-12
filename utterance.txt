@@ -1,3 +1,4 @@
+Setup setup
 SetupFirstName my name is {fname}
 SetupLastName my last name is {lname}
 SetupBabyName my baby's name is {bname}
