@@ -204,6 +204,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             minutes = (breast.end - breast.start)/60
             duration = minutes.round
             response.set_output_speech_text("Great, I logged that #{pronoun} fed for #{duration} minutes on the #{side} and the experience was rated #{breast.quality}")
+        end
     end
     
     on_intent("BeginBottleFeeding") do
@@ -267,6 +268,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             quantity = bottle.amount
         
             response.set_output_speech_text("Ok, #{pronoun} fed for #{duration} minutes. #{user.bname} drank #{quantity}ounce of milk.")
+        end
     end
     
     on_intent("LastFeeding") do
