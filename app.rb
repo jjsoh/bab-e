@@ -74,7 +74,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             
     on_intent("SetupFirstName") do
             user = User.new
-            user.fname = request.intent.slots
+            user.fname = request.intent.slots["fname"]
             user.save
             response.set_output_speech_text("Your first name is #{user.fname}. What is your last name?")
             #Add confirmation
@@ -82,14 +82,14 @@ class CustomHandler < AlexaSkillsRuby::Handler
     
     on_intent("SetupLastName") do
             user = User.last
-            user.lname = lname
+            user.lname = request.intent.slots["lname"]
             user.save
             response.set_output_speech_text("Your last name is #{user.lname}. What is your baby's name?")
     end
     
     on_intent("SetupBabyName") do
             user = User.last
-            user.bname = bname
+            user.bname = request.intent.slots["bname"]
             user.save
             response.set_output_speech_text("Your baby's name is #{user.bname}. What is the baby's gender?")
     end
@@ -110,7 +110,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
        
     on_intent("SetupPassword") do
             user = User.last
-            user.password = password
+            user.password = request.intent.slots["password"]
             user.save
             if user.gender == 1
                 gender = "girl"
@@ -124,429 +124,325 @@ class CustomHandler < AlexaSkillsRuby::Handler
             response.set_output_speech_text("Great, you are all set. Your name is #{user.fname} #{user.lname}. Your baby's name is #{user.bname} and #{pronoun} is a #{gender}.")
     end
 
+#=====================================BREAST FEEDING MODULE =====================================  
+    
+    on_intent("BeginBreastFeeding") do
+        response.set_output_speech_text("Okay, which side is she breast feeding on?")
+    end
+    
+    on_intent("SetBreastSide") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        side = request.intent.slots["side"]
+        # add some validation to check the side is left or right later
+        #create the object
+        breast = Breast.new
+        #add the current time to the start time column
+        # this should be a datetime type
+        breast.side = side
+        breast.start = Time.now
+        # save it and update the database with the change
+        breast.save
+
+        response.set_output_speech_text("Great, I started the timer for the #{side} side. Text 'done' when #{pronoun} stops feeding")
+    end
+    
+    on_intent("EndBreastFeeding") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        #create the object
+        # search for the records in the database that match the side
+        # and haven't got a stop time
+        breast = Breast.where( end: nil ).first
+        # you might also want to add a little more to check a time range
+        # e.g. you don't want to update it if its from yesterday, etc.
+        # check we have something in the database 
+        # i.e. we've got an object to work with 
+        unless breast.nil? 
+            breast.end = Time.now
+              # save it and update the database with the change
+            breast.save
+            minutes = (breast.end - breast.start)/60
+            duration = minutes.round
+        end 
+        response.set_output_speech_text("I updated that. #{user.bname} fed for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?")
+    end
+    
+    on_intent("BreastFeedingQuality") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        quality = request.intent.slots["rating"]
+        
+        breast = Breast.where( quality: nil).first
+        
+        unless breast.nil?
+            breast.quality = quality
+            breast.save
+            side = breast.side
+            minutes = (breast.end - breast.start)/60
+            duration = minutes.round
+            response.set_output_speech_text("Great, I logged that #{pronoun} fed for #{duration} minutes on the #{side} and the experience was rated #{breast.quality}")
+    end
+    
+    on_intent("BeginBottleFeeding") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        bottle = Bottle.new
+        bottle.start = Time.now
+        bottle.save
+        
+        response.set_output_speech_text("Okay, I will begin the timer. How much is #{pronoun} being fed?")
+    end
+    
+    on_intent("BottleAmount") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        bottle = Bottle.last
+        
+        unless bottle.nil?
+            bottle.amount = request.intent.slots["amount"]
+            bottle.save!
+        end
+        
+        response.set_output_speech_text("Great, she's feeding #{bottle.amount}oz of milk. Say 'done' when #{pronoun} stops feeding.")
+    end
+    
+    on_intent("EndBottleFeeding") do
+        bottle = Bottle.last
+        bottle.end = Time.now
+        bottle.save
+        
+            user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        unless bottle.nil?
+            minutes = (bottle.end - bottle.start)/60
+            duration = minutes.round
+        
+            quantity = bottle.amount
+        
+            response.set_output_speech_text("Ok, #{pronoun} fed for #{duration} minutes. #{user.bname} drank #{quantity}ounce of milk.")
+    end
+    
+    on_intent("LastFeeding") do
+        breast = Breast.last
+        bottle = Bottle.last
+        
+        if breast.end > bottle.end
+            time = breast.start.strftime( "%A %e at %l:%M:%P" )
+            side = breast.side
+            minutes = (breast.end - breast.start)/60
+            duration = minutes.round
+            quality = breast.quality
+            
+            user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        response.set_output_speech_text("#{user.bname} was breast fed on #{side} side at #{time} for #{duration} minutes. The experience was rated #{quality}")  
+        
+        elsif bottle.end > breast.end
+            time = bottle.start.strftime( "%A %e at %l:%M:%P" )
+            amount = bottle.amount
+            minutes = (bottle.end - bottle.start)/60
+            duration = minutes.round
+            
+            user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+            
+        response.set_output_speech_text("#{user.bname} was bottle fed with #{amount}oz at #{time} for #{duration} minutes." )        
+        end
+    end
+    
+    on_intent("BeginPumping") do
+        pumping = Pumping.new
+        pumping.start = Time.now
+        pumping.save
+        response.set_output_speech_text("Great, what side are you starting the pump on?")
+    end
+    
+    on_intent("PumpingSide") do
+            pumping = Pumping.last
+            pumping.side = request.intent.slots["side"]
+            pumping.save
+            response.set_output_speech_text("ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'done'.")        
+    end
+    
+    on_intent("EndPumping") do
+            pumping = Pumping.last
+            pumping.end = Time.now
+            pumping.save
+                unless pumping.nil?
+                    minutes = (pumping.end - pumping.start)/60
+                    duration = minutes.round
+                    response.set_output_speech_text("Ok, you pumped on the #{pumping.side} for #{duration}. How much did you end up pumping?")             
+                end
+    end
+    
+    on_intent("PumpingAmount") do
+        pumping = Pumping.last
+            pumping.amount = request.intent.slots["amount"]
+            pumping.save
+                unless pumping.nil?
+                    minutes = (pumping.end - pumping.start)/60
+                    duration = minutes.round
+                    response.set_output_speech_text("Great job, you pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}ounces.")
+                end
+    end
+    
+    on_intent("LastPumping") do
+        pumping = Pumping.last
+            unless pumping.nil?
+                    minutes = (pumping.end - pumping.start)/60
+                    duration = minutes.round
+                    mresponse.set_output_speech_text("You pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz.")
+            end
+    end
+    
+    on_intent("DiaperChange") do
+        user = User.last
+            if user.gender == 1
+                gender = "girl"
+                pronoun = "she"
+                
+                elsif user.gender == 2
+                gender = "boy"
+                pronoun = "he"
+            end
+        
+        diaper = Diaper.new
+        diaper.start = Time.now
+        diaper.save
+        mresponse.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
+    end
+    
+    on_intent("DiaperType") do
+        diaper = Diaper.last
+        time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
+        diaper.save
+        body = request.intent.slots["type"]
+        
+            if body == "pee"
+                user = User.last
+                    if user.gender == 1
+                        gender = "girl"
+                        pronoun = "she"
+
+                        elsif user.gender == 2
+                        gender = "boy"
+                        pronoun = "he"
+                    end
+
+                diaper.dtype = "1"
+                diaper.save
+                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had pee diaper at #{time}.")
+
+                elsif body == "poo"
+                    user = User.last
+                        if user.gender == 1
+                            gender = "girl"
+                            pronoun = "she"
+
+                            elsif user.gender == 2
+                            gender = "boy"
+                            pronoun = "he"
+                        end
+                
+                diaper.dtype = "2"
+                diaper.save
+                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had poo diaper at #{time}.")
+
+                elsif body == "both"
+                    user = User.last
+                    if user.gender == 1
+                        gender = "girl"
+                        pronoun = "she"
+
+                        elsif user.gender == 2
+                        gender = "boy"
+                        pronoun = "he"
+                    end
+                    
+                diaper.dtype = "3"
+                diaper.save
+                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had diaper with both types at #{time}.")
+            end
+    end
+    
 end
 
-
-#
-#get '/incoming_sms' do
-#    
-#    session["last_context"] ||= nil
-#    
-#    puts "Session is #{session["last_context"]}"
-#    
-#    sender = params[:From] || ""
-#    body = params[:Body] || ""
-#    body = body.downcase.strip
-#    
-##================================== USER SETUP ===================================== 
-#    if body == "setup"
-#        message = "Welcome, what is your first name?"
-#        session["last_context"] = "first_name"
-#        
-#        elsif session["last_context"] == "first_name"
-#            user = User.new
-#            user.fname = body
-#            user.save
-#            message = "Your first name is #{user.fname}. What is your last name?"
-#            #Add confirmation
-#            session["last_context"] = "last_name"
-#        
-#        elsif session["last_context"] == "last_name"
-#            user = User.last
-#            user.lname = body
-#            user.save
-#            message = "Your last name is #{user.lname}. What is your baby's name?"
-#            session["last_context"] = "baby_name"
-#        elsif session["last_context"] == "baby_name"
-#            user = User.last
-#            user.bname = body
-#            user.save
-#            message = "Your baby's name is #{user.bname}. What is the baby's gender?"
-#            session["last_context"] = "baby_gender"
-#        elsif session["last_context"] == "baby_gender"
-#            user = User.last
-#            if body == "girl"
-#                user.gender = 1
-#                user.save
-#                message = "Your baby is a girl. Please set your password."
-#                
-#                elsif body == "boy"
-#                user.gender = 2
-#                user.save
-#                message = "Your baby is a body. Please set your password."
-#            end
-#        session["last_context"] = "password"
-#        
-#        elsif session["last_context"] == "password"
-#            user = User.last
-#            user.password = body
-#            user.save
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#            #add check
-#            message = "Great, you are all set. Your name is #{user.fname} #{user.lname}. Your baby's name is #{user.bname} and #{pronoun} is a #{gender}."
-#    end
-#    
-#    
 ##=====================================BREAST FEEDING MODULE =====================================  
-#    #Receive "breast feeding"
-#    if body == "breast"
-#        message = "Okay, which side is she breast feeding on?"
-#        session["last_context"] = "breast_side"
-#
-#    elsif session["last_context"] == "breast_side" and body != "right" || body != "left"
-#        user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        side = body
-#        # add some validation to check the side is left or right later
-#        #create the object
-#        breast = Breast.new
-#        #add the current time to the start time column
-#        # this should be a datetime type
-#        breast.side = side
-#        breast.start = Time.now.in_time_zone("Eastern Time (US & Canada)")
-#        # save it and update the database with the change
-#        breast.save
-#
-#        message = "Great, I started the timer for the #{side} side. Text 'done' when #{pronoun} stops feeding"
-#
-#        session["last_context"] = "feeding_timer"
-#            
-#    elsif session["last_context"] == "feeding_timer" and body == "done" 
-#            user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        #create the object
-#        # search for the records in the database that match the side
-#        # and haven't got a stop time
-#        breast = Breast.where( end: nil ).first
-#        # you might also want to add a little more to check a time range
-#        # e.g. you don't want to update it if its from yesterday, etc.
-#        # check we have something in the database 
-#        # i.e. we've got an object to work with 
-#        unless breast.nil? 
-#            breast.end = Time.now.in_time_zone("Eastern Time (US & Canada)")
-#              # save it and update the database with the change
-#            breast.save
-#            minutes = (breast.end - breast.start)/60
-#            duration = minutes.round
-#        end 
-#        message = "I updated that. #{user.bname} fed for #{duration} minutes. How would you rate the quality of the experience from 1 being bad to 10 being great?"
-#        session["last_context"] = "feeding_quality"
-#        
-#    elsif session["last_context"] == "feeding_quality" and body.to_i > 0 
-#        user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        quality = body.to_i
-#        
-#        breast = Breast.where( quality: nil).first
-#        
-#        unless breast.nil?
-#            breast.quality = quality
-#            breast.save
-#            side = breast.side
-#            minutes = (breast.end - breast.start)/60
-#            duration = minutes.round
-#            message = "Great, I logged that #{pronoun} fed for #{duration} minutes on the #{side} and the experience was rated #{breast.quality}"          
-#          else
-#            message = "Sorry. I couldn't do that. I don't think the timer was started."
-#          end 
-#        else  
-#         #... 
-#        end
-#    
 #    if body == "breast list"
 #         message = Breast.all.to_json
 #    end    
 #        
 #    
-##================================== BOTTLE FEEDING MODULE =====================================   
-#    if body == "bottle"
-#        user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        bottle = Bottle.new
-#        bottle.start = Time.now
-#        bottle.save
-#        
-#        message = "Okay, I will begin the timer. How much is #{pronoun} being fed?"
-#        
-#        session["last_context"] = "bottle_quantity"
-#
-#    elsif session["last_context"] == "bottle_quantity" and body.to_i > 0
-#        quantity = body.to_i
-#        
-#        user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        bottle = Bottle.last
-#        
-#        unless bottle.nil?
-#            bottle.amount = quantity
-#            bottle.save!
-#        end
-#        
-#        message = "Great, she's feeding #{bottle.amount}oz of milk. Say 'done' when #{pronoun} stops feeding."
-#        session["last_context"] = "feeding_duration"
-#
-#    elsif session["last_context"] == "feeding_duration" and body == "done"
-#        
-#        bottle = Bottle.last
-#        bottle.end = Time.now
-#        bottle.save
-#        
-#            user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        unless bottle.nil?
-#            minutes = (bottle.end - bottle.start)/60
-#            duration = minutes.round
-#        
-#            quantity = bottle.amount
-#        
-#            message = "Ok, #{pronoun} fed for #{duration} minutes. #{user.bname} drank #{quantity}oz of milk."
-#        end
-#    end
-#
+##================================== BOTTLE FEEDING MODULE ===================================== 
 #    if body == "bottle list"
 #        message = Bottle.all.to_json
 #    end    
 #
-##===================================== FEEDING QUERY MODULE =====================================
-#    if body == "last feeding"
-#        breast = Breast.last
-#        bottle = Bottle.last
-#        
-#        
-#        if breast.end > bottle.end
-#            time = breast.start.strftime( "%A %e at %l:%M:%P" )
-#            side = breast.side
-#            minutes = (breast.end - breast.start)/60
-#            duration = minutes.round
-#            quality = breast.quality
-#            
-#            user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        message = "#{user.bname} was breast fed on #{side} side at #{time} for #{duration} minutes. The experience was rated #{quality}"  
-#        
-#        elsif bottle.end > breast.end
-#            time = bottle.start.strftime( "%A %e at %l:%M:%P" )
-#            amount = bottle.amount
-#            minutes = (bottle.end - bottle.start)/60
-#            duration = minutes.round
-#            
-#            user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#            
-#        message = "#{user.bname} was bottle fed with #{amount}oz at #{time} for #{duration} minutes."  
-#            
-#        end
-#
-#    end
-#
 ##===================================== PUMPING MODULE =====================================
-#    
-#    if body == "pumping"
-#        pumping = Pumping.new
-#        pumping.start = Time.now
-#        pumping.save
-#        message = "what side are you pumping on?"
-#        
-#        session["last_context"] = "pumping_side"
-#            
-#        elsif session["last_context"] == "pumping_side"
-#            pumping = Pumping.last
-#            pumping.side = body
-#            pumping.save
-#            message = "ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'done'."
-#
-#        session["last_context"] = "pumping_end"
-#        
-#        elsif session["last_context"] == "pumping_end" and body == "done"
-#            pumping = Pumping.last
-#            pumping.end = Time.now
-#            pumping.save
-#                unless pumping.nil?
-#                    minutes = (pumping.end - pumping.start)/60
-#                    duration = minutes.round
-#                    message = "Ok, you pumped on the #{pumping.side} for #{duration}. How much did you end up pumping?"             
-#                end
-#            session["last_context"] = "pumping_amount"
-#        
-#        elsif session["last_context"] == "pumping_amount"
-#            pumping = Pumping.last
-#            pumping.amount = body.to_i
-#            pumping.save
-#                unless pumping.nil?
-#                    minutes = (pumping.end - pumping.start)/60
-#                    duration = minutes.round
-#                    message = "Great job, you pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz."
-#                end
-#    end
-#    
-#    if body == "last pumping"
-#        pumping = Pumping.last
-#            unless pumping.nil?
-#                    minutes = (pumping.end - pumping.start)/60
-#                    duration = minutes.round
-#                    message = "You pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz."
-#                end
-#    end
-#
-#    
+
 ##===================================== DIAPER LIST =====================================
-#    
-#    if body == "diaper"
-#        user = User.last
-#            if user.gender == 1
-#                gender = "girl"
-#                pronoun = "she"
-#                
-#                elsif user.gender == 2
-#                gender = "boy"
-#                pronoun = "he"
-#            end
-#        
-#        diaper = Diaper.new
-#        diaper.start = Time.now
-#        diaper.save
-#        message = "Ok, what did #{user.bname} have in the diaper?"
-#        
-#        session["last_context"] = "diaper_type"
-#        
-#        elsif session["last_context"] == "diaper_type" and body != "poo" || body != "pee" || body != "both"
-#        diaper = Diaper.last
-#        time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
-#        diaper.save
-#        
-#            if body == "pee"
-#                user = User.last
-#                    if user.gender == 1
-#                        gender = "girl"
-#                        pronoun = "she"
-#
-#                        elsif user.gender == 2
-#                        gender = "boy"
-#                        pronoun = "he"
-#                    end
-#
-#                diaper.dtype = "1"
-#                diaper.save
-#                message = "Great, I logged that #{pronoun} had pee diaper at #{time}."
-#
-#                elsif body == "poo"
-#                    user = User.last
-#                        if user.gender == 1
-#                            gender = "girl"
-#                            pronoun = "she"
-#
-#                            elsif user.gender == 2
-#                            gender = "boy"
-#                            pronoun = "he"
-#                        end
-#                
-#                diaper.dtype = "2"
-#                diaper.save
-#                message = "Great, I logged that #{pronoun} had poo diaper at #{time}."
-#
-#                elsif body == "both"
-#                    user = User.last
-#                    if user.gender == 1
-#                        gender = "girl"
-#                        pronoun = "she"
-#
-#                        elsif user.gender == 2
-#                        gender = "boy"
-#                        pronoun = "he"
-#                    end
-#                    
-#                diaper.dtype = "3"
-#                diaper.save
-#                message = "Great, I logged that #{pronoun} had diaper with both types at #{time}."
-#            end
-#    end
-#    
-#    if body == "last diaper"
-#        diaper = Diaper.last
-#        time = diaper.start.strftime( "%A %e at %l:%M:%P" )
-#        
-#        if diaper.dtype == 1
-#            user = User.last
-#            message = "#{user.bname} had a pee diaper at #{time}."
-#            
-#            elsif diaper.dtype == 2
-#            user = User.last
-#            message = "#{user.bname} had a poo diaper at #{time}."
-#            
-#            elsif diaper.dtype == 3
-#            user = User.last
-#            message = "#{user.bname} had a diaper with both types at #{time}."     
-#        end
-#    end
-#    
 #    if body == "diaper list"
 #        message = Diaper.all.to_json
 #    end

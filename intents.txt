@@ -47,6 +47,81 @@
                 "type": "PASSWORD_LIST"
             }
         ]
+    },
+    {
+      "intent": "BeginBreastFeeding"
+    },
+    {
+      "intent": "SetBreastSide"
+      "slots":[
+            {
+                "name": "side"
+                "type": "SIDE_LIST"
+            }
+        ]
+    },
+    {
+      "intent": "EndBreastFeeding"
+    },
+    {
+      "intent": "BreastFeedingQuality"
+      "slots":[
+            {
+                "name": "rating"
+                "type": "AMAZON.NUMBER"
+            }
+        ]
+    },
+    {
+      "intent": "BeginBottleFeeding"
+    },
+    {
+      "intent": "BottleAmount"
+      "slots":[
+            {
+                "name": "amount"
+                "type": "AMAZON.NUMBER"
+            }
+        ]
+    },
+    {
+      "intent": "EndBottleFeeding"
+    },
+    {
+      "intent": "LastFeeding"
+    },
+    {
+      "intent": "BeginPumping"
+    },
+    {
+      "intent": "PumpingSide"
+      "slots":[
+            {
+                "name": "side"
+                "type": "SIDE_LIST"
+            }
+        ]
+    },
+    {
+      "intent": "EndPumping"
+    },
+    {
+      "intent": "PumpingAmount"
+      "slots":[
+            {
+                "name": "amount"
+                "type": "AMAZON.NUMBER"
+            }
+        ]
+    },
+    {
+      "intent": "DiaperType"
+      "slots":[
+            {
+                "name": "type"
+                "type": "TYPE_LIST"
+            }
+        ]
     }
   ]
 }
