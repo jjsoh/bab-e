@@ -153,12 +153,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
         breast.start = t + Time.zone_offset('EST')
         # save it and update the database with the change
         breast.save
-        session["last_context"]="BreastFeeding"
+        session="BreastFeeding"
 
         response.set_output_speech_text("Great, I started the timer for the #{side} side. Text 'done' when #{pronoun} stops feeding")
     end
     
-    on_intent("EndBreastFeeding") and session["last_context"]=="BreastFeeding" do
+    on_intent("EndBreastFeeding") and session=="BreastFeeding" do
         user = User.last
             if user.gender == 1
                 gender = "girl"
@@ -251,12 +251,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
             bottle.save!
         end
         
-       session["last_context"]="BottleFeeding"
+       session="BottleFeeding"
 
         response.set_output_speech_text("Great, she's feeding #{bottle.amount}oz of milk. Say 'done' when #{pronoun} stops feeding.")
     end
     
-    on_intent("EndBottleFeeding") and session["last_context"]=="BottleFeeding" do
+    on_intent("EndBottleFeeding") and session=="BottleFeeding" do
         bottle = Bottle.last
         t = Time.now
         bottle.end = t + Time.zone_offset('EST')
@@ -340,11 +340,11 @@ class CustomHandler < AlexaSkillsRuby::Handler
             pumping = Pumping.last
             pumping.side = request.intent.slots["side"]
             pumping.save
-            session["last_context"]="Pumping"
+            session="Pumping"
             response.set_output_speech_text("ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'done'.")        
     end
     
-    on_intent("EndPumping") and session["last_context"]=="Pumping" do
+    on_intent("EndPumping") and session=="Pumping" do
             pumping = Pumping.last
             t = Time.now
             pumping.end = t + Time.zone_offset('EST')
@@ -379,12 +379,19 @@ class CustomHandler < AlexaSkillsRuby::Handler
 #===================================== DIAPER LIST =====================================    
     on_intent("DiaperChange") do
         user = User.last
-        
+                    if user.gender == 1
+                        gender = "girl"
+                        pronoun = "she"
+
+                        elsif user.gender == 2
+                        gender = "boy"
+                        pronoun = "he"
+                    end
         diaper = Diaper.new
         t = Time.now
         diaper.start = t + Time.zone_offset('EST')
         diaper.save
-        response.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
+        response.set_output_speech_text("Ok, what did #{pronoun} have in the diaper?")
     end
     
     on_intent("DiaperType") do
