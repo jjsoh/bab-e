@@ -5,6 +5,7 @@ require "active_support/core_ext"
 require 'sinatra/activerecord'
 require 'rake'
 require 'active_support/core_ext/time'
+require 'time'
 
 require 'twilio-ruby'
 
@@ -148,7 +149,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
         #add the current time to the start time column
         # this should be a datetime type
         breast.side = side
-        breast.start = Time.now
+        t = Time.now
+        breast.start = t + Time.zone_offset('EST')
         # save it and update the database with the change
         breast.save
 
@@ -174,7 +176,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
         # check we have something in the database 
         # i.e. we've got an object to work with 
         unless breast.nil? 
-            breast.end = Time.now
+            t = Time.now
+            breast.end = t + Time.zone_offset('EST')
               # save it and update the database with the change
             breast.save
             minutes = (breast.end - breast.start)/60
@@ -222,7 +225,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
             end
         
         bottle = Bottle.new
-        bottle.start = Time.now
+        t = Time.now
+        bottle.start = t + Time.zone_offset('EST')
         bottle.save
         
         response.set_output_speech_text("Okay, I will begin the timer. How much is #{pronoun} being fed?")
@@ -251,7 +255,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
     
     on_intent("EndBottleFeeding") do
         bottle = Bottle.last
-        bottle.end = Time.now
+        t = Time.now
+        bottle.end = t + Time.zone_offset('EST')
         bottle.save
         
             user = User.last
@@ -320,7 +325,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
 #===================================== PUMPING MODULE =====================================    
     on_intent("BeginPumping") do
         pumping = Pumping.new
-        pumping.start = Time.now
+        t = Time.now
+        pumping.start = t + Time.zone_offset('EST')
         pumping.save
         response.set_output_speech_text("Great, what side are you starting the pump on?")
     end
@@ -334,7 +340,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
     
     on_intent("EndPumping") do
             pumping = Pumping.last
-            pumping.end = Time.now
+            t = Time.now
+            pumping.end = t + Time.zone_offset('EST')
             pumping.save
                 unless pumping.nil?
                     minutes = (pumping.end - pumping.start)/60
@@ -376,7 +383,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
             end
         
         diaper = Diaper.new
-        diaper.start = Time.now
+        t = Time.now
+        diaper.start = t + Time.zone_offset('EST')
         diaper.save
         mresponse.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
     end
@@ -432,6 +440,22 @@ class CustomHandler < AlexaSkillsRuby::Handler
                 diaper.save
                 mresponse.set_output_speech_text("Great, I logged that #{pronoun} had diaper with both types at #{time}.")
             end
+    end
+    
+    on_intent("LastDiaper") do
+       diaper = Diaper.last
+        user = User.last
+        time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
+        
+        if diaper.dtype == 1
+            mresponse.set_output_speech_text("#{user.bname} had a pee diaper at #{time}.")
+            
+            elsif diaper.dtype == 2
+            mresponse.set_output_speech_text("#{user.bname} had a poo diaper at #{time}.")
+            
+            elsif diaper.dtype == 3
+            mresponse.set_output_speech_text("#{user.bname} had a with both at #{time}.")
+        end
     end
     
 end
