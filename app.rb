@@ -286,7 +286,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
         bottle = Bottle.last
         
         if breast.end > bottle.end
-            time = breast.start.strftime( "%A %e at %l:%M:%P" )
+            time = breast.start.strftime( "%A %e at %l %M %P" )
             side = breast.side
             minutes = (breast.end - breast.start)/60
             duration = minutes.round
@@ -305,7 +305,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
         response.set_output_speech_text("#{user.bname} was breast fed on #{side} side at #{time} for #{duration} minutes. The experience was rated #{quality}")  
         
         elsif bottle.end > breast.end
-            time = bottle.start.strftime( "%A %e at %l:%M:%P" )
+            time = bottle.start.strftime( "%A %e at %l %M %P" )
             amount = bottle.amount
             minutes = (bottle.end - bottle.start)/60
             duration = minutes.round
@@ -393,7 +393,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     
     on_intent("DType") do
         diaper = Diaper.last
-        time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
+        time = diaper.start.strftime ( "%A %e at %l %M %P" )
         diaper.save
         body = request.intent.slots["type"]
         
@@ -447,7 +447,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     on_intent("LastDiaper") do
        diaper = Diaper.last
         user = User.last
-        time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
+        time = diaper.start.strftime ( "%A %e at %l %M %P" )
         
         if diaper.dtype == 1
             response.set_output_speech_text("#{user.bname} had a pee diaper at #{time}.")

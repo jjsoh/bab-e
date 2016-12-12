@@ -24,9 +24,10 @@ BeginBreastFeeding I started breast feeding
 BeginBreastFeeding she is breast feeding
 BeginBreastFeeding he is breast feeding
 
+SetBreastSide feeding on the {side}
 SetBreastSide feeding on {side} side
-SetBreastSide she's {side} side
-SetBreastSide he's {side} side
+SetBreastSide she is on the {side} side
+SetBreastSide he is on the {side} side
 
 EndBreastFeeding breast feeding done
 EndBreastFeeding breast done
@@ -42,8 +43,8 @@ BeginBottleFeeding begin bottle feeding timer
 BeginBottleFeeding she is being bottle fed
 BeginBottleFeeding he is being bottle fed
 
-BottleAmount she is having {amount} ounce.
-BottleAmount he is having {amount} ounce.
+BottleAmount she is drinking {amount} ounce.
+BottleAmount he is drinking {amount} ounce.
 BottleAmount is drinking {amount} ounce.
 
 EndBottleFeeding bottle done
@@ -74,13 +75,13 @@ LastPumping last pumping
 LastPumping when was the last pumping
 LastPumping when did I last pump
 
-DiaperChange diaper change
-DiaperChange diaper
+DChange diaper change
+DChange diaper
 
-DiaperType she had a {type}
-DiaperType he had a {type}
-DiaperType there was a {type}
-DiaperType it was a {type}
+DType she had a {type}
+DType he had a {type}
+DType there was a {type}
+DType it was a {type}
 
 LastDiaper last diaper
 LastDiaper when was the last diaper
