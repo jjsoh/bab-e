@@ -96,6 +96,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
 
     on_intent("SetupBabyGender") do
             user = User.last
+            gender = request.intent.slots["gender"]
             if gender == "girl"
                 user.gender = 1
                 user.save
@@ -206,7 +207,9 @@ class CustomHandler < AlexaSkillsRuby::Handler
             response.set_output_speech_text("Great, I logged that #{pronoun} fed for #{duration} minutes on the #{side} and the experience was rated #{breast.quality}")
         end
     end
+
     
+#================================== BOTTLE FEEDING MODULE =====================================    
     on_intent("BeginBottleFeeding") do
         user = User.last
             if user.gender == 1
@@ -313,7 +316,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
         response.set_output_speech_text("#{user.bname} was bottle fed with #{amount}oz at #{time} for #{duration} minutes." )        
         end
     end
-    
+
+#===================================== PUMPING MODULE =====================================    
     on_intent("BeginPumping") do
         pumping = Pumping.new
         pumping.start = Time.now
@@ -358,7 +362,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
                     mresponse.set_output_speech_text("You pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz.")
             end
     end
-    
+
+#===================================== DIAPER LIST =====================================    
     on_intent("DiaperChange") do
         user = User.last
             if user.gender == 1
