@@ -154,7 +154,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
         # save it and update the database with the change
         breast.save
 
-        response.set_output_speech_text("Great, I started the timer for the #{side} side. Text 'done' when #{pronoun} stops feeding")
+        response.set_output_speech_text("Great, I started the timer for the #{side} side. Say 'breast feeding done' when #{pronoun} stops feeding")
     end
     
     on_intent("EndBreastFeeding") do
@@ -250,7 +250,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             bottle.save!
         end
         
-        response.set_output_speech_text("Great, she's feeding #{bottle.amount}oz of milk. Say 'done' when #{pronoun} stops feeding.")
+        response.set_output_speech_text("Great, she's feeding #{bottle.amount}oz of milk. Say 'bottle feeding done' when #{pronoun} stops feeding.")
     end
     
     on_intent("EndBottleFeeding") do
@@ -337,7 +337,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             pumping = Pumping.last
             pumping.side = request.intent.slots["side"]
             pumping.save
-            response.set_output_speech_text("ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'done'.")        
+            response.set_output_speech_text("ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'pumping done'.")        
     end
     
     on_intent("EndPumping") do

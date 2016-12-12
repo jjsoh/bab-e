@@ -2,45 +2,86 @@ Setup setup
 Setup user setup
 
 SetupFirstName my name is {fname}
+SetupFirstName my first name is {fname}
 
 SetupLastName my last name is {lname}
+SetupLastName my family name is {lname}
 
 SetupBabyName my baby's name is {bname}
+SetupBabyName her name is {bname}
+SetupBabyName his name is {bname}
 
 SetupBabyGender my baby is a {gender}
+SetupBabyGender she is a {gender}
+SetupBabyGender he is a {gender}
 
 SetupPassword my password is {password}
+SetupPassword my password will be {password}
+SetupPassword make my password {password}
 
 BeginBreastFeeding start breast feeding
+BeginBreastFeeding I started breast feeding
+BeginBreastFeeding she is breast feeding
+BeginBreastFeeding he is breast feeding
 
 SetBreastSide feeding on {side} side
+SetBreastSide she's {side} side
+SetBreastSide he's {side} side
 
-EndBreastFeeding done
+EndBreastFeeding breast feeding done
+EndBreastFeeding breast done
+EndBreastFeeding she finished breast feeding
+EndBreastFeeding he finished breast feeding
 
 BreastFeedingQuality {rating}
+BreastFeedingQuality the experience was {rating}
+BreastFeedingQuality I would rate it {rating}
 
 BeginBottleFeeding start bottle feeding
+BeginBottleFeeding begin bottle feeding timer
+BeginBottleFeeding she is being bottle fed
+BeginBottleFeeding he is being bottle fed
 
 BottleAmount she is having {amount} ounce.
+BottleAmount he is having {amount} ounce.
+BottleAmount is drinking {amount} ounce.
 
 EndBottleFeeding bottle done
-EndBottleFeeding done
+EndBottleFeeding bottle feeding done
+EndBottleFeeding she finished the bottle
+EndBottleFeeding he finished the bottle
 
 LastFeeding last feeding
+LastFeeding when was the last feeding
+LastFeeding when did she feed last
+LastFeeding when did he feed last
 
 BeginPumping begin pumping
+BeginPumping I begin pumping
+BeginPumping begin pumping timer
 
 PumpingSide I am pumping on {side} side
+PumpingSide starting on {side} side
 
-EndPumping finish pumping
-EndPumping done
+EndPumping pumping done
+EndPumping pumping finished
+EndPumping end pumping timer
 
 PumpingAmount I pumped {amount} ounce
+PumpingAmount I got {amount} ounce
 
 LastPumping last pumping
+LastPumping when was the last pumping
+LastPumping when did I last pump
 
 DiaperChange diaper change
+DiaperChange diaper
 
 DiaperType she had a {type}
+DiaperType he had a {type}
+DiaperType there was a {type}
+DiaperType it was a {type}
 
 LastDiaper last diaper
+LastDiaper when was the last diaper
+LastDiaper what was the last diaper
