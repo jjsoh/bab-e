@@ -279,6 +279,8 @@ class CustomHandler < AlexaSkillsRuby::Handler
         end
     end
     
+#================================== FEEDING QUERY =====================================    
+    
     on_intent("LastFeeding") do
         breast = Breast.last
         bottle = Bottle.last
@@ -366,7 +368,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             unless pumping.nil?
                     minutes = (pumping.end - pumping.start)/60
                     duration = minutes.round
-                    mresponse.set_output_speech_text("You pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz.")
+                    response.set_output_speech_text("You pumped for #{duration} minutes on the #{pumping.side} side. You pumped #{pumping.amount}oz.")
             end
     end
 
@@ -378,7 +380,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
         t = Time.now
         diaper.start = t + Time.zone_offset('EST')
         diaper.save
-        mresponse.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
+        response.set_output_speech_text("Ok, what did #{user.bname} have in the diaper?")
     end
     
     on_intent("DiaperType") do
@@ -400,7 +402,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
 
                 diaper.dtype = "1"
                 diaper.save
-                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had pee diaper at #{time}.")
+                response.set_output_speech_text("Great, I logged that #{pronoun} had pee diaper at #{time}.")
 
                 elsif body == "poo"
                     user = User.last
@@ -415,7 +417,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
                 
                 diaper.dtype = "2"
                 diaper.save
-                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had poo diaper at #{time}.")
+                response.set_output_speech_text("Great, I logged that #{pronoun} had poo diaper at #{time}.")
 
                 elsif body == "both"
                     user = User.last
@@ -430,7 +432,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
                     
                 diaper.dtype = "3"
                 diaper.save
-                mresponse.set_output_speech_text("Great, I logged that #{pronoun} had diaper with both types at #{time}.")
+                response.set_output_speech_text("Great, I logged that #{pronoun} had diaper with both types at #{time}.")
             end
     end
     
@@ -440,13 +442,13 @@ class CustomHandler < AlexaSkillsRuby::Handler
         time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
         
         if diaper.dtype == 1
-            mresponse.set_output_speech_text("#{user.bname} had a pee diaper at #{time}.")
+            response.set_output_speech_text("#{user.bname} had a pee diaper at #{time}.")
             
             elsif diaper.dtype == 2
-            mresponse.set_output_speech_text("#{user.bname} had a poo diaper at #{time}.")
+            response.set_output_speech_text("#{user.bname} had a poo diaper at #{time}.")
             
             elsif diaper.dtype == 3
-            mresponse.set_output_speech_text("#{user.bname} had a with both at #{time}.")
+            response.set_output_speech_text("#{user.bname} had a with both at #{time}.")
         end
     end
     
