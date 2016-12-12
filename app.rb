@@ -373,14 +373,6 @@ class CustomHandler < AlexaSkillsRuby::Handler
 #===================================== DIAPER LIST =====================================    
     on_intent("DiaperChange") do
         user = User.last
-            if user.gender == 1
-                gender = "girl"
-                pronoun = "she"
-                
-                elsif user.gender == 2
-                gender = "boy"
-                pronoun = "he"
-            end
         
         diaper = Diaper.new
         t = Time.now
