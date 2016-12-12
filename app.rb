@@ -373,7 +373,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
     end
 
 #===================================== DIAPER LIST =====================================    
-    on_intent("Change") do
+    on_intent("DChange") do
         user = User.last
                     if user.gender == 1
                         gender = "girl"
@@ -390,7 +390,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
         response.set_output_speech_text("Ok, what did #{pronoun} have in the diaper?")
     end
     
-    on_intent("Type") do
+    on_intent("DType") do
         diaper = Diaper.last
         time = diaper.start.strftime ( "%A %e at %l:%M:%P" )
         diaper.save
