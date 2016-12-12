@@ -384,8 +384,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
                         pronoun = "he"
                     end
         diaper = Diaper.new
-        t = Time.now
-        diaper.start = t + Time.zone_offset('EST')
+        diaper.start = Time.now
         diaper.save
         response.set_output_speech_text("Ok, what did #{pronoun} have in the diaper?")
     end
