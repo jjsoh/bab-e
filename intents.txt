@@ -4,7 +4,7 @@
       "intent":"Setup"
     },
     {
-      "intent": "SetupFirstName"
+      "intent": "SetupFirstName",
         "slots":[
             {
                 "name": "fname",
@@ -13,7 +13,7 @@
             ]
     },
     {
-      "intent": "SetupLastName"
+      "intent": "SetupLastName",
       "slots":[
             {
                 "name": "lname",
@@ -22,7 +22,7 @@
         ]
     },
     {
-      "intent": "SetupBabyName"
+      "intent": "SetupBabyName",
       "slots":[
             {
                 "name": "bname",
@@ -31,19 +31,19 @@
         ]
     },
     {
-      "intent": "SetupBabyGender"
+      "intent": "SetupBabyGender",
       "slots":[
             {
-                "name": "gender"
+                "name": "gender",
                 "type": "GENDER_LIST"
             }
         ]
     },
     {
-      "intent": "SetupPassword"
+      "intent": "SetupPassword",
       "slots":[
             {
-                "name": "password"
+                "name": "password",
                 "type": "PASSWORD_LIST"
             }
         ]
@@ -52,10 +52,10 @@
       "intent": "BeginBreastFeeding"
     },
     {
-      "intent": "SetBreastSide"
+      "intent": "SetBreastSide",
       "slots":[
             {
-                "name": "side"
+                "name": "side",
                 "type": "SIDE_LIST"
             }
         ]
@@ -64,10 +64,10 @@
       "intent": "EndBreastFeeding"
     },
     {
-      "intent": "BreastFeedingQuality"
+      "intent": "BreastFeedingQuality",
       "slots":[
             {
-                "name": "rating"
+                "name": "rating",
                 "type": "AMAZON.NUMBER"
             }
         ]
@@ -76,10 +76,10 @@
       "intent": "BeginBottleFeeding"
     },
     {
-      "intent": "BottleAmount"
+      "intent": "BottleAmount",
       "slots":[
             {
-                "name": "amount"
+                "name": "amount",
                 "type": "AMAZON.NUMBER"
             }
         ]
@@ -94,10 +94,10 @@
       "intent": "BeginPumping"
     },
     {
-      "intent": "PumpingSide"
+      "intent": "PumpingSide",
       "slots":[
             {
-                "name": "side"
+                "name": "side",
                 "type": "SIDE_LIST"
             }
         ]
@@ -106,19 +106,19 @@
       "intent": "EndPumping"
     },
     {
-      "intent": "PumpingAmount"
+      "intent": "PumpingAmount",
       "slots":[
             {
-                "name": "amount"
+                "name": "amount",
                 "type": "AMAZON.NUMBER"
             }
         ]
     },
     {
-      "intent": "DiaperType"
+      "intent": "DiaperType",
       "slots":[
             {
-                "name": "type"
+                "name": "type",
                 "type": "TYPE_LIST"
             }
         ]

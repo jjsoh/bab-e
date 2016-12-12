@@ -55,7 +55,7 @@ end
 post '/' do
   content_type :json
 
-  handler = CustomHandler.new(application_id: ENV['ALEXA_APPLICATION_ID'], logger: logger)
+  handler = CustomHandler.new(application_id: ENV['APPLICATION_ID'], logger: logger)
 
   begin
     handler.handle(request.body.read)
