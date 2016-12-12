@@ -1,23 +1,46 @@
 Setup setup
 Setup user setup
+
 SetupFirstName my name is {fname}
+
 SetupLastName my last name is {lname}
+
 SetupBabyName my baby's name is {bname}
+
 SetupBabyGender my baby is a {gender}
+
 SetupPassword my password is {password}
+
 BeginBreastFeeding start breast feeding
+
 SetBreastSide feeding on {side} side
+
 EndBreastFeeding done
+
 BreastFeedingQuality {rating}
+
 BeginBottleFeeding start bottle feeding
+
 BottleAmount she is having {amount} ounce.
+
 EndBottleFeeding bottle done
+EndBottleFeeding done
+
 LastFeeding last feeding
+
 BeginPumping begin pumping
+
 PumpingSide I am pumping on {side} side
+
 EndPumping finish pumping
+EndPumping done
+
 PumpingAmount I pumped {amount} ounce
+
 LastPumping last pumping
+
 DiaperChange diaper change
+
 DiaperType she had a {type}
+
 LastDiaper last diaper

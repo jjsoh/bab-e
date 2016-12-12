@@ -153,11 +153,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
         breast.start = t + Time.zone_offset('EST')
         # save it and update the database with the change
         breast.save
+        session["last_context"]="BreastFeeding"
 
         response.set_output_speech_text("Great, I started the timer for the #{side} side. Text 'done' when #{pronoun} stops feeding")
     end
     
-    on_intent("EndBreastFeeding") do
+    on_intent("EndBreastFeeding") and session["last_context"]=="BreastFeeding" do
         user = User.last
             if user.gender == 1
                 gender = "girl"
@@ -250,10 +251,12 @@ class CustomHandler < AlexaSkillsRuby::Handler
             bottle.save!
         end
         
+       session["last_context"]="BottleFeeding"
+
         response.set_output_speech_text("Great, she's feeding #{bottle.amount}oz of milk. Say 'done' when #{pronoun} stops feeding.")
     end
     
-    on_intent("EndBottleFeeding") do
+    on_intent("EndBottleFeeding") and session["last_context"]=="BottleFeeding" do
         bottle = Bottle.last
         t = Time.now
         bottle.end = t + Time.zone_offset('EST')
@@ -337,10 +340,11 @@ class CustomHandler < AlexaSkillsRuby::Handler
             pumping = Pumping.last
             pumping.side = request.intent.slots["side"]
             pumping.save
+            session["last_context"]="Pumping"
             response.set_output_speech_text("ok, I've recorderd that you are pumping on the #{pumping.side}. Let me know when you finish by saying 'done'.")        
     end
     
-    on_intent("EndPumping") do
+    on_intent("EndPumping") and session["last_context"]=="Pumping" do
             pumping = Pumping.last
             t = Time.now
             pumping.end = t + Time.zone_offset('EST')
