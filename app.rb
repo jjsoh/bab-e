@@ -74,7 +74,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
             
     on_intent("SetupFirstName") do
             user = User.new
-            user.fname = request.intent.slots 
+            user.fname = request.intent.slots.value 
             user.save
             response.set_output_speech_text("Your first name is #{user.fname}. What is your last name?")
             #Add confirmation
