@@ -19,17 +19,20 @@ SetupPassword my password is {password}
 SetupPassword my password will be {password}
 SetupPassword make my password {password}
 
-BeginBreastFeeding start breast feeding
+BeginBreastFeeding started breast feeding
+BeginBreastFeeding is breast feeding
 BeginBreastFeeding I started breast feeding
 BeginBreastFeeding she is breast feeding
 BeginBreastFeeding he is breast feeding
 
-SetBreastSide feeding on the {side}
+SetBreastSide feeding on the {side} side
+SetBreastSide is feeding on the {side} side
 SetBreastSide feeding on {side} side
 SetBreastSide she is on the {side} side
 SetBreastSide he is on the {side} side
 
 EndBreastFeeding breast feeding done
+EndBreastFeeding done breast feeding
 EndBreastFeeding breast done
 EndBreastFeeding she finished breast feeding
 EndBreastFeeding he finished breast feeding
@@ -39,20 +42,29 @@ BreastFeedingQuality the experience was {rating}
 BreastFeedingQuality I would rate it {rating}
 
 BeginBottleFeeding start bottle feeding
+BeginBottleFeeding feeding on the bottle
 BeginBottleFeeding begin bottle feeding timer
-BeginBottleFeeding she is being bottle fed
-BeginBottleFeeding he is being bottle fed
+BeginBottleFeeding is drinking a bottle
+BeginBottleFeeding is drinking a bottle
+BeginBottleFeeding is being bottle fed
+BeginBottleFeeding is being bottle fed
 
-BottleAmount she is drinking {amount} ounce.
-BottleAmount he is drinking {amount} ounce.
 BottleAmount is drinking {amount} ounce.
+BottleAmount is drinking {amount} ounce.
+BottleAmount is feeding {amount} ounce.
+BottleAmount had {amount} ounce.
+BottleAmount had {amount} ounce.
 
 EndBottleFeeding bottle done
 EndBottleFeeding bottle feeding done
 EndBottleFeeding she finished the bottle
 EndBottleFeeding he finished the bottle
+EndBottleFeeding she is done with the bottle
+EndBottleFeeding he is done with the bottle
+
 
 LastFeeding last feeding
+LastFeeding check last feeding
 LastFeeding when was the last feeding
 LastFeeding when did she feed last
 LastFeeding when did he feed last
@@ -61,12 +73,13 @@ BeginPumping begin pumping
 BeginPumping I begin pumping
 BeginPumping begin pumping timer
 
-PumpingSide I am pumping on {side} side
-PumpingSide starting on {side} side
+PumpingSide I am pumping on the {side} side
+PumpingSide pumping on the {side} side
 
 EndPumping pumping done
 EndPumping pumping finished
 EndPumping end pumping timer
+EndPumping I'm done pumping
 
 PumpingAmount I pumped {amount} ounce
 PumpingAmount I got {amount} ounce
@@ -77,11 +90,13 @@ LastPumping when did I last pump
 
 DChange diaper change
 DChange diaper
+DChange has a diaper change
 
-DType she had a {type}
-DType he had a {type}
+DType she had a {type} in the diaper
+DType he had a {type} in the diaper
 DType there was a {type}
 DType it was a {type}
+DType has a {type} diaper
 
 LastDiaper last diaper
 LastDiaper when was the last diaper
